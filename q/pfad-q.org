@@ -1,0 +1,64 @@
+#+Title: Functional Pearls in Q
+
+* Solutions in Q
+
+** The smallest free number
+
+#+BEGIN_SRC q
+mf1:{r:(til count x); first r where not r in x}
+#+END_SRC
+
+#+BEGIN_SRC q
+pt:{(y where not a;y where a:y >= x)}
+mfm:{[a;xs] n:count xs; b:a+1+n div 2; p:pt[b;xs]; $[not n; a; (b-a)=count p 0; mfm[b;p 1]; mfm[a;p 0]]}
+mf2:mfm[0]
+mfm2:{[a;n;xs] b:a+1+n div 2; p:pt[b;xs]; m:count p 0; $[not n; a; m=b-a; mfm2[b;n-m;p 1]; mfm2[a;m;p 0]]}
+mf3:{mfm2[0;count x;x]}
+#+END_SRC
+
+#+BEGIN_SRC q
+smpl:{(neg x)?x+y}
+#+END_SRC
+
+** A surpassing problem
+
+#+BEGIN_SRC q
+sc:{count y where x < y}
+msc1:{max {sc[x y; (1+y) _ x]}[x] each til count x}
+#+END_SRC
+
+#+BEGIN_SRC q
+splt:{(0, x) _ y}
+jn:{[n;txs;tys]
+ $[n=0; txs; not count txs; tys;
+  (x1:txs[0;`k]) < (y1:tys[0;`k]);
+    ([]k:enlist x1;v:enlist n+c:txs[0;`v]), jn[n  ;1 _ txs;    tys];
+    ([]k:enlist y1;v:enlist   d:tys[0;`v]), jn[n-1;    txs;1 _ tys]]}
+tbl:{m:count x;
+ $[m=1;
+  ([]k:raze enlist x;v:enlist 0);
+  {[m;xs] n:m div 2; sp:splt[n;xs];
+   (m;n;sp);
+   jn[m-n;tbl[sp 0];tbl[sp 1]]}[m;x]]}
+msc2:{t:tbl x;max t[`v]}
+#+END_SRC
+
+#+BEGIN_SRC q
+e:([]k:();v:()); ee:enlist e;
+jn2:{tr:x[`r];m:count txs:x[`a];n:count tys:x[`b];
+ if[m=0; :`r`a`b!(tr,tys;e;e)];
+ if[n=0; :`r`a`b!(tr,txs;e;e)];
+ $[(x1:txs[0;`k]) < (y1:tys[0;`k]);
+  `r`a`b!(tr,([]k:enlist x1;v:enlist n+c:txs[0;`v]); 1 _ txs;    tys);
+  `r`a`b!(tr,([]k:enlist y1;v:enlist   d:tys[0;`v]);     txs;1 _ tys)]}
+tbl2:{tx:1 cut ([]k:x;v:(count x)#0);
+ {[tx] txx:?[0 = (count tx) mod 2; tx; tx, ee];
+  ({jn2/[`r`a`b!ee,x]} each 2 cut txx)[`r]}/[tx]}
+msc3:{max (tbl2 x)[0;`v]}
+#+END_SRC
+
+#+BEGIN_SRC q
+smpl:{("j"$x)?0Nc}
+#+END_SRC
+
+** Improving on saddleback search

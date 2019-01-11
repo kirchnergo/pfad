@@ -101,10 +101,10 @@ jn2/[(`r`a`b!(e;([]k:"xz";v:2 8);([]k:"ab";v:3 4)))]
 / step by step
 show t0:([]k:i;v:(count i)#0)
 show tx:1 cut t0
-show emt:([]k:();v:())
-`r`a`b!(enlist e),2#tx
+show e:([]k:();v:())
+`r`a`b!ee,2#tx
 jn2/[`r`a`b!(enlist e),2#tx]
-show tx2:({jn2/[`r`a`b!(enlist e),x]} each 2 cut tx)[`r]
+show tx2:({jn2/[`r`a`b!ee,x]} each 2 cut tx)[`r]
 -1_(2 cut tx2)
 show tx2x:(2 cut tx2,ee)
 jn2/[`r`a`b!(ee),2#tx2]
