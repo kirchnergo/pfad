@@ -7,7 +7,7 @@ r in x
 
 / minfree version 1
 mf1:{r:(til count x); first r where not r in x}
-mf1 xs
+mf1 x
 \ts do[100000;mf1 xs]
 
 / create larger samples
@@ -26,6 +26,7 @@ mf1 x8
 \ts mf1 x3
 \ts mf1 x5
 \ts mf1 x7
+/582 402653424
 \ts mf1 x8
 /2119 3221225712
 /\ts mf1 x9
@@ -48,22 +49,19 @@ mf3:{mfm2[0;count x;x]}
 mf3 x
 
 / examples v2
-mf2 x3
-mf2 x5
-mf2 x7
-mf2 x8
+mf3 x3
+mf3 x5
+mf3 x7
 mf3 x8
-\ts mf2 x3
-\ts mf2 x5
-\ts mf2 x7
-\ts mf2 x8
+\ts mf3 x3
+\ts mf3 x5
+\ts mf3 x7
+/266 268440752
 \ts mf3 x8
 /2280 2147489696
 /\ts mf3 x9
 /186595 17179876112
-\ts do[10000;mf2 x3]
-\ts do[100;mf2 x5]
-\ts do[10;mf2 x7]
+\ts do[10000;mf3 x3]
+\ts do[100;mf3 x5]
 \ts do[10;mf3 x7]
-\ts do[10;mf2 x8]
 \ts do[10;mf3 x8]
